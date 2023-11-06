@@ -37,7 +37,77 @@ struct Movie {
             isPopular == movie.isPopular
         );
     }
+
+    // Operator Overloading
+    bool operator==(const Movie& movie) const {
+        return (
+                title == movie.title &&
+                releaseDate.year == movie.releaseDate.year &&
+                releaseDate.month == movie.releaseDate.month &&
+                releaseDate.day == movie.releaseDate.day &&
+                isPopular == movie.isPopular
+        );
+    }
 };
+
+ostream& operator<<(ostream& stream, const Movie& movie) {
+    stream << movie.title;
+
+    return stream;
+}
+
+// Exercise
+/*
+ * Define a structure for representing a point.
+ * X, Y
+ * Overload the equality (==) and stream insertion operators (<<) for points
+*/
+
+struct Point {
+    int x;
+    int y;
+};
+
+// PointA, PointB => bool
+bool operator==(const Point& first, const Point& second) {
+    return (first.x == second.x && first.y == second.y);
+}
+
+// stream, point => stream
+ostream& operator<<(ostream& stream, const Point& point) {
+    return stream << "(" << point.x << ", " << point.y << ")";
+}
+
+// Structures and Functions
+Movie getMovie() {
+    return {"Terminator", 1984};
+}
+
+void showMovie(Movie& movie) {
+    cout << movie.title << endl;
+}
+// <=>
+// Pointers to Structures
+void showMovie1(Movie* movie) {
+    // cout << (*movie).title;
+    // <=>
+    cout << movie->title << endl; // -> structure pointer operator
+}
+
+// Defining Enumerations
+enum class Action {
+    List = 1,
+    Add, // this will be 2
+    Update
+};
+
+// Strongly Typed Enumerations (class)
+enum class Operation {
+    List = 1,
+    Add, // this will be 2
+    Update
+};
+
 
 int main() {
     // Initializing Structures
@@ -88,5 +158,42 @@ int main() {
         cout << "Not Equal" << endl;
     }
 
+    // <=> (Operator Overloading)
+    if (movie == movie1)
+        cout << "Equal!" << endl;
+
+    cout << movie1 << endl;
+
+    Point x = {1, 2};
+    Point y = {1, 2};
+
+    cout << (x == y) << endl;
+    cout << x << endl;
+
+    // Structures and Functions
+    auto movie2 = getMovie();
+    showMovie(movie2);
+
+    // Pointers to Structures
+    // <=>
+    auto movie3 = getMovie();
+    showMovie1(&movie3);
+
+    // Defining Enumerations
+    cout <<
+        "1: List invoices" << endl <<
+        "2: Add invoice" << endl <<
+        "3: Update invoice" << endl <<
+        "Select: ";
+
+    int input;
+    cin >> input;
+
+    // Strongly Typed Enumerations
+    if (input == static_cast<int>(Action::List)) {
+        cout << "List invoices";
+    }
+
     return 0;
 }
+
