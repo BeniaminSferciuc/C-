@@ -1,45 +1,92 @@
+// Structures and Enumerations
+/*
+ * Define structures
+ * Use structures
+ * Operator overloading
+ * Pointers to structures
+ * Enumerations
+ */
+
 #include <iostream>
-#include <iomanip>
+#include <vector>
 
 using namespace std;
 
-struct Address {
-    string street;
-    string city;
-    int zipCode;
+// Defining Strucrures (Use PascalCase)
+// Nesting Structures
+struct Date {
+    short year = 1900; // default value
+    short month = 1;
+    short day = 1;
 };
 
-struct Customers {
-    int ID;
-    Address address;
-    string name;
-    string email;
+struct Movie {
+    string title;
+    Date releaseDate;
+    bool isPopular; // false <- default value
+
+    // Working with Methods
+    // & - reference
+    // const - prevents the change of members
+    bool equals(const Movie& movie) {
+        return (
+            title == movie.title &&
+            releaseDate.year == movie.releaseDate.year &&
+            releaseDate.month == movie.releaseDate.month &&
+            releaseDate.day == movie.releaseDate.day &&
+            isPopular == movie.isPopular
+        );
+    }
 };
 
 int main() {
-    Customers client {
-        10,
-        {"Slt. Grigors", "Falticeni", 725200},
-        "Beniamin",
-        "sbt.beniamin@gmail.com"
-    };
+    // Initializing Structures
+    Movie movie = {"End-Game", 2019}; // object
+    // <=>
+    // movie.title = "End-Game";
+    // movie.releaseYear = 2019;
 
-    /*
-    cout << "Enter your ID: ";
-    cin >> client.ID;
-    cout << "Enter your name: ";
-    cin >> client.name;
-    cout << "Enter your email: ";
-    cin >> client.email;
-    */
+    cout << "Title: " << movie.title << endl;
+    cout << "Release Year: " << movie.releaseDate.year << endl;
 
-    cout << client.address.city << endl;
-    cout << "You entered:" << endl
-         << left << setw(10) << "ID: " << setw(10) << client.ID << endl
-         << setw(10) << "Name: " << setw(10) << client.name << endl
-         << setw(10) << "Email: " << setw(10) << client.email << endl;
+    // Unpacking Structures or Structured Binding
+    // auto [title, releaseYear, isPopular] = movie;
 
+    // string title = movie.title;
+    // int releaseYear = movie.releaseYear;
+    // bool isPopular = movie.isPopular;
 
+    // cout << title + ' ' << boolalpha << releaseYear << " " << isPopular << endl;
+
+    // Array of Structures
+    // vector (standard library) -> dinamic array
+    vector<Movie> movies;
+
+    // Initializing relaseDate
+    // Method 1
+    Date date {2002, 6, 1};
+    movies.push_back({"Ice Age 1", date});
+    // Method 2
+    movies.push_back({"Ice Age 2", {2006, 2, 12}});
+    movies.push_back({"Ice Age 3", {2009, 9, 9}});
+
+    for (const auto& movie: movies)
+        cout << movie.title << " "
+             << movie.releaseDate.year
+             << " " << movie.releaseDate.month
+             << " " << movie.releaseDate.day
+             << endl;
+
+    // Comparing Structures
+    // You can't compare structures, but can compare every member from a structure
+
+    Movie movie1 = {"End-Game", 2019};
+
+    if (movie.equals(movie1)) {
+        cout << "Equal" << endl;
+    } else {
+        cout << "Not Equal" << endl;
+    }
 
     return 0;
 }
